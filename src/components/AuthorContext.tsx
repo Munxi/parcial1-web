@@ -24,7 +24,7 @@ export function AuthorsProvider({ children } : {children:React.ReactNode}){
     const [fetchedAuthors, setFetchedAuthors] = useState(false);
     const [selectedAuthor,selectAuthor] = useState<Author|null>(null);
     const fetchAuthors = async () => {
-        const res = await fetch("http://127.0.0.1:8080/api/authors");
+        const res = await fetch("http://localhost:8080/api/authors");
         if (!res.ok) throw new Error("Can't fetch authors");
         setFetchedAuthors(true);
         return (await res.json()) as Author[];
