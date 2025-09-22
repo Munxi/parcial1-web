@@ -25,8 +25,12 @@ export default function AuthorCard({   id,
                                        description,
                                        image,
                                    }: Author) {
-    const {authors, setAuthors, selectAuthor} = useAuthors()
+    const {authors, setAuthors, selectAuthor, favoriteAuthors, toggleFavorite} = useAuthors()
+    const [isFav, setIsFav] = useState(false);
     const [imgSrc, setImgSrc] = useState(image);
+    const checkFavorite = () => {
+        return favoriteAuthors.some((a:number) => a === id)
+    }
     function deleteAuthor(){
         const authorsDelete =  authors.filter(item => item.id !== id)
         setAuthors(authorsDelete);
@@ -36,8 +40,18 @@ export default function AuthorCard({   id,
         setImgSrc(image);
     }, [image]);
 
+    useEffect(() => {
+        setIsFav(checkFavorite());
+    }, [toggleFavorite]);
+
     return (
         <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+            <button
+                className={`${isFav ? 'bg-yellow-400' : 'bg-gray-600'} text-2xl text-right px-5 py-1  ${isFav ? 'hover:bg-gray-600' : 'hover:bg-yellow-400'}`}
+                onClick={() => toggleFavorite(id)}
+            >
+                ★
+            </button>
             <div className="relative overflow-hidden bg-neutral-100">
                 <div className="pt-[100%]" />
                 <Image

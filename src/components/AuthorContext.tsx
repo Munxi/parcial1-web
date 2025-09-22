@@ -12,6 +12,8 @@ interface Author{
 type AuthorsContextType = {
     authors: Author[];
     setAuthors: (authors: Author[]) => void;
+    favoriteAuthors: number[];
+    toggleFavorite: (author: number) => void;
     fetchAuthors: () => Promise<Author[]>;
     fetchedAuthors: boolean;
     selectedAuthor: Author | null;
@@ -20,9 +22,18 @@ type AuthorsContextType = {
 
 const AuthorsContext = createContext<AuthorsContextType | null>(null);
 export function AuthorsProvider({ children } : {children:React.ReactNode}){
+    const [favoriteAuthors, setFavoriteAuthors] = useState<number[]>([]);
     const [authors, setAuthors] = useState<Author[]>([]);
     const [fetchedAuthors, setFetchedAuthors] = useState(false);
     const [selectedAuthor,selectAuthor] = useState<Author|null>(null);
+    const toggleFavorite = (id: number) => {
+         if(favoriteAuthors.some((a:number) => a === id)){
+            setFavoriteAuthors(favoriteAuthors.filter((a: number) => a !== id));
+         }
+         else{
+             setFavoriteAuthors(favoriteAuthors.concat(id))
+         }
+    }
     const fetchAuthors = async () => {
         const res = await fetch("http://localhost:8080/api/authors");
         if (!res.ok) throw new Error("Can't fetch authors");
@@ -31,7 +42,7 @@ export function AuthorsProvider({ children } : {children:React.ReactNode}){
     };
 
     return (
-        <AuthorsContext.Provider value={{ authors,fetchAuthors,setAuthors,fetchedAuthors,selectedAuthor,selectAuthor}}>
+        <AuthorsContext.Provider value={{ authors,fetchAuthors,setAuthors,fetchedAuthors,selectedAuthor,selectAuthor,favoriteAuthors,toggleFavorite}}>
             {children}
         </AuthorsContext.Provider>
     );

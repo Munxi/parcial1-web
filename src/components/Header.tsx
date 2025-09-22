@@ -8,6 +8,7 @@ const Header = () => {
                 <nav>
                     <Link href="/authors" className="px-3 hover:text-gray-300">Meet the authors</Link>
                     <Link href="/create" className="px-3 hover:text-gray-300">Create an author</Link>
+                    <Link href="/favorites" className="px-3 hover:text-gray-300">Your Favorites authors</Link>
                 </nav>
             </div>
         </header>
