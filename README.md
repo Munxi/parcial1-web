@@ -29,5 +29,5 @@ Para ejecutar la aplicación basta con el comando por defecto:
 
 `npm run dev
 `
-Y abrir la pagina con en el puerto específico.
+Y abrir la página con en el puerto específico.
 
